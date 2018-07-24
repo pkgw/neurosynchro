@@ -1,10 +1,10 @@
-.. neurosynchro documentation master file, created by
-   sphinx-quickstart on Tue Jul 24 11:20:49 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+neurosynchro
+============
 
-Welcome to neurosynchro's documentation!
-========================================
+*Neurosynchro* is a small Python package for creating and using neural
+networks to quickly approximate the coefficients needed for fully-polarized
+synchrotron radiative transfer. It builds on the `Keras <https://keras.io/>`_
+deep learning library.
 
 .. toctree::
    :maxdepth: 2

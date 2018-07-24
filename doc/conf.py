@@ -23,9 +23,8 @@ project = 'neurosynchro'
 copyright = '2018, Peter K. G. Williams and collaborators'
 author = 'Peter K. G. Williams and collaborators'
 
-# The short X.Y version
-version = ''
-# The full version, including alpha/beta/rc tags
+# Keep synchronized with ../setup.py:
+version = '0.1'
 release = '0.1.0'
 
 

@@ -19,7 +19,7 @@ This code is specific to synchrotron radiation because it makes certain
 assumptions about how the coefficients scale with input parameters such as the
 observing frequency.
 
-Neurostokes is written by Peter K. G. Williams (<pwilliams@cfa.harvard.edu>).
+Neurosynchro is written by Peter K. G. Williams (<pwilliams@cfa.harvard.edu>).
 
 ## Requirements
 

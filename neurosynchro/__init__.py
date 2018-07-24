@@ -2,12 +2,12 @@
 # Copyright 2017-2018 Peter Williams and collaborators.
 # Licensed under the MIT License.
 
-"""Code to develop and use an artificial neural network approximation
-("regression") of radiative transfer coefficients as a function of various
-physical input parameters.
+"""Train and use artificial neural network approximations ("regressions") of
+synchrotron radiative transfer coefficients as a function of various physical
+input parameters.
 
-The actual neural net stuff is in the ``impl`` module to avoid importing Keras
-unless needed.
+The meat of the neural network code is in the ``impl`` module to avoid
+importing Keras unless needed.
 
 """
 from __future__ import absolute_import, division, print_function

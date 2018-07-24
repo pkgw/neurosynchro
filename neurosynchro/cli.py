@@ -3,7 +3,7 @@
 # Copyright 2017-2018 Peter Williams and collaborators.
 # Licensed under the MIT License.
 
-"""Summarize the results from a Symphony sampling run
+"""Command-line access to neurosynchro functionality.
 
 """
 from __future__ import absolute_import, division, print_function
@@ -17,7 +17,7 @@ import pytoml
 from . import basic_load
 
 
-# "lock-domain-range"
+# The "lock-domain-range" subcommand
 
 def _hack_pytoml():
     """pytoml will stringify floats using repr, which is ugly and fails outright with
@@ -74,7 +74,7 @@ def lock_domain_range_cli(args):
         pytoml.dump(f, info)
 
 
-# "summarize"
+# The "summarize" subcommand
 
 def summarize(datadir):
     df = basic_load(datadir)
@@ -109,7 +109,7 @@ def summarize_cli(args):
     summarize(settings.datadir)
 
 
-# "transform"
+# The "transform" subcommand
 
 def transform(datadir):
     """This task takes the raw synchrotron coefficients output by rimphony and
@@ -232,3 +232,13 @@ def entrypoint(argv):
         transform_cli(argv[2:])
     else:
         die('unrecognized subcommand %r', argv[1])
+
+
+def main():
+    import sys
+    from pwkit import cli
+
+    cli.unicode_stdio()
+    cli.propagate_sigint()
+    cli.backtrace_on_usr1()
+    entrypoint(sys.argv)

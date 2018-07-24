@@ -2,7 +2,7 @@
 # Copyright 2017-2018 Peter Williams and collaborators.
 # Licensed under the MIT License.
 
-"""The actual neural network code.
+"""The main neural network code.
 
 """
 from __future__ import absolute_import, division, print_function

@@ -21,6 +21,11 @@ observing frequency.
 
 Neurosynchro is written by Peter K. G. Williams (<pwilliams@cfa.harvard.edu>).
 
+## Documentation
+
+*Neurosynchro’s* documentation
+ [is on ReadTheDocs](https://neurosynchro.readthedocs.io/en/stable/).
+
 ## Requirements
 
 - [keras](https://keras.io/) version 2.1 or greater.

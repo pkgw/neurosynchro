@@ -7,12 +7,14 @@ from __future__ import absolute_import, division, print_function
 
 from setuptools import setup, Extension
 
-setup(
-    # Keep synchronized with doc/conf.py:
-    version = '0.1.1',
+# Keep synchronized with doc/conf.py:
+version = '0.1.1'
 
+setup(
     name = 'neurosynchro',
-    author = 'Peter Williams <peter@newton.cx>',
+    version = version,
+    author = 'Peter Williams',
+    author_email = 'peter@newton.cx',
     url = 'https://github.com/pkgw/neurosynchro/',
     license = 'MIT',
     description = ('Use neural networks to approximate polarized synchrotron '
@@ -22,7 +24,8 @@ setup(
 *Neurosynchro* is a small Python package for creating and using neural
 networks to quickly approximate the coefficients needed for fully-polarized
 synchrotron radiative transfer. It builds on the `Keras <https://keras.io/>`_
-deep learning library.
+deep learning library. Documentation may be found `on ReadTheDocs
+<https://neurosynchro.readthedocs.io/en/stable/>`_.
 
 Say that you have a code — such as `Rimphony
 <https://github.com/pkgw/rimphony/>`_ or `Symphony

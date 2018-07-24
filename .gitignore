@@ -1,0 +1,5 @@
+# Keep sorted
+*.pyc
+__pycache__
+/build/
+/neurosynchro.egg-info/

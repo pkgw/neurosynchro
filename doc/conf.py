@@ -25,7 +25,7 @@ author = 'Peter K. G. Williams and collaborators'
 
 # Keep synchronized with ../setup.py:
 version = '0.1'
-release = '0.1.2'
+release = '0.1.3a0'
 
 
 # -- General configuration ---------------------------------------------------

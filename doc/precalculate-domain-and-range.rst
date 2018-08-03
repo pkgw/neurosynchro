@@ -18,3 +18,5 @@ Here ``xformdir`` is the path to *transformed* training set (use ``.`` if you
 wrote the transformed data to a file in the current directory) and ``nndir``
 is the path to the directory containing your ``nn_config.toml`` file. This
 command will rewrite this file, embedding the needed quantities.
+
+**Next**: :ref:`train your neural networks! <train-your-networks>`

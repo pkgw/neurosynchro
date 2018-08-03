@@ -63,6 +63,11 @@ result took about 2.2 seconds.
 Something like 100,000 rows is enough to train some good neural networks. It
 doesn't matter how many different files those rows are split into.
 
+.. tip:: *Neurosynchro* takes a directory of files as an input, rather than
+         one specific file, since the former is easier to create on a big HPC
+         cluster where you can launch 1,000 jobs to compute coefficients for
+         you in parallel.
+
 
 Important assumptions
 ---------------------
@@ -85,9 +90,9 @@ works:
    all scale linearly). Once again this means that the energetic particle
    density doesn´t actually need to be part of the regression.
 3. You only need to do computations where the angle between the line of sight
-   and the magnetic field, θ, is less than 90°. *Neurosynchro* assumes that all
-   parameters are symmetric with regards to θ except the Stokes V components,
-   which negate.
+   and the magnetic field, θ, is less than 90°. *Neurosynchro* assumes that
+   all parameters are symmetric with regards to θ = 90° except the Stokes V
+   components, which negate.
 
 Given those assumptions, almost every part of *neurosynchro* expects that the
 following input parameters will exist:

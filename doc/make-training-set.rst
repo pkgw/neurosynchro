@@ -105,6 +105,8 @@ reduced to these two parameters, plus scalings that are known *a priori*. In
 the example above, the two remaining parameters *p* and *k* relate to the
 shape of the particle distribution function.
 
+.. _standard-output-parameters:
+
 On the output side, *neurosynchro* applies some more assumptions to ensure
 that it always produces physically sensible output (i.e., that the polarized
 Stokes emission parameters are never bigger than the total-intensity Stokes
@@ -135,3 +137,5 @@ output results:
 *rho_V*
    The Faraday rotation coefficient (mixing Stokes Q and Stokes U), in
    the same units.
+
+**Next**: :ref:`transform your training set <transform-training-set>`.

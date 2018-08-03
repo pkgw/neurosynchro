@@ -51,6 +51,7 @@ If *neurosynchro* is the tool you need, here are the steps to using it:
    :maxdepth: 2
 
    make-training-set.rst
+   transform-training-set.rst
    train-networks.rst
    use-networks.rst
 

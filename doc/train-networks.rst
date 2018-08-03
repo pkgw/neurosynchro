@@ -6,3 +6,13 @@ Train Your Networks
 
 TODO
 
+.. _trainer-types:
+
+Trainer Types
+~~~~~~~~~~~~~
+
+*Neurosynchro* supports the following neural network training schemes:
+
+*generic*
+*twolayer*
+*binary*

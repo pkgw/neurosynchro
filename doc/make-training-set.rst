@@ -71,7 +71,7 @@ In the example above, there are just four input parameters: *s*, *theta*, *p*,
 and *k*. These are likely not the usual parameters that you see when thinking
 about synchrotron radiation. There’s an important reason for this!
 
-*Neurosynchro* bakes in two key assumptions about how synchrotron radiation
+*Neurosynchro* bakes in three key assumptions about how synchrotron radiation
 works:
 
 1. You must compute all of your coefficients **at an observing frequency of 1
@@ -84,6 +84,10 @@ works:
    coefficients scale simply with the energetic particle density (namely, they
    all scale linearly). Once again this means that the energetic particle
    density doesn´t actually need to be part of the regression.
+3. You only need to do computations where the angle between the line of sight
+   and the magnetic field, θ, is less than 90°. *Neurosynchro* assumes that all
+   parameters are symmetric with regards to θ except the Stokes V components,
+   which negate.
 
 Given those assumptions, almost every part of *neurosynchro* expects that the
 following input parameters will exist:

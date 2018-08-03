@@ -36,3 +36,5 @@ The ``transform`` subcommand will also filter your data, discarding any rows
 containing non-finite values or with outputs that do not obey the necessary
 invariants to begin with. It prints a statistical summary of this filtering to
 the standard error stream.
+
+**Next**: :ref:`specify your parameter transformations <specify-parameter-transformations>`.

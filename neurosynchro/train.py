@@ -170,8 +170,7 @@ def make_parser(ap=None):
     return ap
 
 
-def train_cli(args):
-    settings = make_parser().parse_args(args=args)
+def train_cli(settings):
     m = load_data_and_train(settings.datadir, settings.nndir, settings.result_name)
     print('Achieved MSE of %g in %.1f seconds for %s.' %
           (m.final_mse, m.training_wall_clock, settings.result_name))

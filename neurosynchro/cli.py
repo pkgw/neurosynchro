@@ -131,7 +131,7 @@ NNINIT_DEFAULT_CONFIG = {
     ]
 }
 
-def nninit(settings):
+def nninit_cli(settings):
     nndir = Path(settings.nndir)
 
     try:
@@ -159,10 +159,8 @@ def make_ldr_parser(ap=None):
     return ap
 
 
-def lock_domain_range_cli(args):
+def lock_domain_range_cli(settings):
     from . import DomainRange
-
-    settings = make_ldr_parser().parse_args(args=args)
 
     # Load samples
     df = basic_load(settings.datadir)
@@ -214,8 +212,7 @@ def make_summarize_parser(ap=None):
     return ap
 
 
-def summarize_cli(args):
-    settings = make_summarize_parser().parse_args(args=args)
+def summarize_cli(settings):
     summarize(settings.datadir)
 
 
@@ -322,8 +319,7 @@ def make_transform_parser(ap=None):
     return ap
 
 
-def transform_cli(args):
-    settings = make_transform_parser().parse_args(args=args)
+def transform_cli(settings):
     transform(settings.datadir)
 
 
@@ -375,16 +371,16 @@ so you almost surely want to redirect the output of this program to a file.'''
         die('you must supply a subcommand; run with "--help" for help')
 
     if settings.subcommand == 'init-nndir':
-        nninit(settings)
+        nninit_cli(settings)
     elif settings.subcommand == 'lock-domain-range':
-        lock_domain_range_cli(argv[2:])
+        lock_domain_range_cli(settings)
     elif settings.subcommand == 'summarize':
-        summarize_cli(argv[2:])
+        summarize_cli(settings)
     elif settings.subcommand == 'train':
         from .train import train_cli
-        train_cli(argv[2:])
+        train_cli(settings)
     elif settings.subcommand == 'transform':
-        transform_cli(argv[2:])
+        transform_cli(settings)
     else:
         # argparse will error out if it the user gives an unrecognized
         # subcommand, so if we get here it's an internal bug

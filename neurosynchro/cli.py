@@ -62,6 +62,7 @@ NNINIT_DEFAULT_CONFIG = {
         dict(
             name = 'theta',
             maptype = 'direct',
+            phys_bounds_mode = 'theta',
             out_of_sample = 'clip',
         )
     ],

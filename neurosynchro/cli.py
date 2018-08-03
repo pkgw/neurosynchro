@@ -17,7 +17,6 @@ import pytoml
 from . import basic_load
 
 
-# The "lock-domain-range" subcommand
 
 def _hack_pytoml():
     """pytoml will stringify floats using repr, which is ugly and fails outright with
@@ -41,6 +40,112 @@ def _hack_pytoml():
 
 _hack_pytoml()
 
+
+# The "init-nndir" subcommand
+
+def make_nninit_parser(ap=None):
+    if ap is None:
+        ap = argparse.ArgumentParser()
+
+    ap.add_argument('nndir', type=str, metavar='<nndir>',
+                    help='The name of the output neural-net directory to create')
+    return ap
+
+
+NNINIT_DEFAULT_CONFIG = {
+    'params': [
+        dict(
+            name = 's',
+            maptype = 'log',
+        ),
+
+        dict(
+            name = 'theta',
+            maptype = 'direct',
+            out_of_sample = 'clip',
+        )
+    ],
+
+    'results': [
+        dict(
+            name = 'j_I',
+            maptype = 'log',
+            trainer = 'generic',
+        ),
+
+        dict(
+            name = 'alpha_I',
+            maptype = 'log',
+            trainer = 'generic',
+        ),
+
+        dict(
+            name = 'rho_Q',
+            maptype = 'abs_log',
+            trainer = 'generic',
+        ),
+
+        dict(
+            name = 'rho_V',
+            maptype = 'log',
+            trainer = 'generic',
+        ),
+
+        dict(
+            name = 'j_frac_pol',
+            maptype = 'logit',
+            trainer = 'generic',
+        ),
+
+        dict(
+            name = 'alpha_frac_pol',
+            maptype = 'logit',
+            trainer = 'generic',
+        ),
+
+        dict(
+            name = 'j_V_share',
+            maptype = 'logit',
+            trainer = 'generic',
+        ),
+
+        dict(
+            name = 'alpha_V_share',
+            maptype = 'logit',
+            trainer = 'generic',
+        ),
+
+        dict(
+            name = 'rho_Q_sign',
+            maptype = 'direct',
+            normalization_mode = 'unit_interval',
+            trainer = 'generic',
+            x_mean = -1,
+            x_std = 2,
+            phys_min = -1,
+            phys_max = 1,
+            norm_min = 0,
+            norm_max = 1,
+        ),
+    ]
+}
+
+def nninit(settings):
+    nndir = Path(settings.nndir)
+
+    try:
+        nndir.mkdir()
+    except OSError as e:
+        if e.errno == 17:
+            die('directory \"%s\" already exists' % settings.nndir)
+        raise
+
+    cfg_path = nndir / 'nn_config.toml'
+    with cfg_path.open('wt') as f:
+        pytoml.dump(f, NNINIT_DEFAULT_CONFIG)
+
+
+# The "lock-domain-range" subcommand
 
 def make_ldr_parser(ap=None):
     if ap is None:
@@ -231,6 +336,11 @@ def entrypoint(argv):
         help = 'The sub-command to invoke'
     )
 
+    make_nninit_parser(subparsers.add_parser(
+        'init-nndir',
+        help = 'Initialize a directory to save the neural network training data'
+    ))
+
     make_ldr_parser(subparsers.add_parser(
         'lock-domain-range',
         help = 'Find the domain and range of the training set'
@@ -263,7 +373,9 @@ so you almost surely want to redirect the output of this program to a file.'''
     if settings.subcommand is None:
         die('you must supply a subcommand; run with "--help" for help')
 
-    if settings.subcommand == 'lock-domain-range':
+    if settings.subcommand == 'init-nndir':
+        nninit(settings)
+    elif settings.subcommand == 'lock-domain-range':
         lock_domain_range_cli(argv[2:])
     elif settings.subcommand == 'summarize':
         summarize_cli(argv[2:])
@@ -272,8 +384,10 @@ so you almost surely want to redirect the output of this program to a file.'''
         train_cli(argv[2:])
     elif settings.subcommand == 'transform':
         transform_cli(argv[2:])
-
-    # argparse will have errored out if an unrecognized subcommand is given
+    else:
+        # argparse will error out if it the user gives an unrecognized
+        # subcommand, so if we get here it's an internal bug
+        assert False, 'internal bug: forgot to handle subcommand!'
 
 
 def main():

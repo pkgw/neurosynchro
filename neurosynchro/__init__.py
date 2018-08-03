@@ -77,6 +77,8 @@ class Mapping(object):
             # Maps the physical values to the unit interval [0, 1].
             inst.x_mean = transformed.min()
             inst.x_std = transformed.max() - inst.x_mean
+            if inst.x_std == 0:
+                inst.x_std = 1.
         else:
             raise ValueError('unrecognized normalization_mode value %r for %s' %
                              (inst.normalization_mode, inst.name))

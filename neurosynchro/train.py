@@ -149,8 +149,10 @@ def page_results(m, residuals=False, thin=500):
     pg.done()
 
 
-def make_parser():
-    ap = argparse.ArgumentParser()
+def make_parser(ap=None):
+    if ap is None:
+        ap = argparse.ArgumentParser()
+
     ap.add_argument('-p', '--plot', action='store_true',
                     help='Compare the NN and Symphony after training.')
     ap.add_argument('-r', '--residuals', action='store_true',

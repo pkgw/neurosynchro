@@ -42,11 +42,13 @@ def _hack_pytoml():
 _hack_pytoml()
 
 
-def make_ldr_parser():
-    ap = argparse.ArgumentParser()
-    ap.add_argument('datadir', type=str, metavar='DATADIR',
-                    help='The path to the input sample data directory.')
-    ap.add_argument('nndir', type=str, metavar='NNDIR',
+def make_ldr_parser(ap=None):
+    if ap is None:
+        ap = argparse.ArgumentParser()
+
+    ap.add_argument('datadir', type=str, metavar='<datadir>',
+                    help='The path to the input training data directory.')
+    ap.add_argument('nndir', type=str, metavar='<nndir>',
                     help='The path to the output neural-net directory.')
     return ap
 
@@ -97,9 +99,11 @@ def summarize(datadir):
         print('  Nonpositive:', (r <= 0).sum())
 
 
-def make_summarize_parser():
-    ap = argparse.ArgumentParser()
-    ap.add_argument('datadir', type=str, metavar='DATADIR',
+def make_summarize_parser(ap=None):
+    if ap is None:
+        ap = argparse.ArgumentParser()
+
+    ap.add_argument('datadir', type=str, metavar='<datadir>',
                     help='The path to the sample data directory.')
     return ap
 
@@ -203,9 +207,11 @@ def transform(datadir):
     )
 
 
-def make_transform_parser():
-    ap = argparse.ArgumentParser()
-    ap.add_argument('datadir', type=str, metavar='DATADIR',
+def make_transform_parser(ap=None):
+    if ap is None:
+        ap = argparse.ArgumentParser()
+
+    ap.add_argument('datadir', type=str, metavar='<datadir>',
                     help='The path to the sample data directory.')
     return ap
 
@@ -218,20 +224,56 @@ def transform_cli(args):
 # The entrypoint
 
 def entrypoint(argv):
-    if len(argv) == 1:
-        die('must supply a subcommand: "lock-domain-range", "summarize", "train", "transform"')
+    ap = argparse.ArgumentParser(prog='neurosynchro')
+    subparsers = ap.add_subparsers(
+        dest = 'subcommand',
+        metavar = '<command>',
+        help = 'The sub-command to invoke'
+    )
 
-    if argv[1] == 'lock-domain-range':
+    make_ldr_parser(subparsers.add_parser(
+        'lock-domain-range',
+        help = 'Find the domain and range of the training set'
+    ))
+
+    make_summarize_parser(subparsers.add_parser(
+        'summarize',
+        help = 'Print summary statistics about the training set'
+    ))
+
+    make_transform_parser(subparsers.add_parser(
+        'transform',
+        help = 'Transform the training set into Neurosynchro\'s internal parametrization',
+        description = 'Transform the training set into Neurosynchro\'s internal parametrization.',
+        epilog = '''The training set can have arbitrary input parameters, but should have eight
+output parameters named `j_I`, `j_Q`, `j_V`, `alpha_I`, `alpha_Q`, `alpha_V`,
+`rho_Q`, `rho_V` -- these are the standard Stokes-basis radiative transfer
+coefficients. The transformed training set will be printed to standard output,
+so you almost surely want to redirect the output of this program to a file.'''
+    ))
+
+    from .train import make_parser as make_train_parser
+    make_train_parser(subparsers.add_parser(
+        'train',
+        help = 'Train one of the neural networks'
+    ))
+
+    settings = ap.parse_args(argv[1:])
+
+    if settings.subcommand is None:
+        die('you must supply a subcommand; run with "--help" for help')
+
+    if settings.subcommand == 'lock-domain-range':
         lock_domain_range_cli(argv[2:])
-    elif argv[1] == 'summarize':
+    elif settings.subcommand == 'summarize':
         summarize_cli(argv[2:])
-    elif argv[1] == 'train':
+    elif settings.subcommand == 'train':
         from .train import train_cli
         train_cli(argv[2:])
-    elif argv[1] == 'transform':
+    elif settings.subcommand == 'transform':
         transform_cli(argv[2:])
-    else:
-        die('unrecognized subcommand %r', argv[1])
+
+    # argparse will have errored out if an unrecognized subcommand is given
 
 
 def main():

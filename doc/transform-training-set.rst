@@ -37,4 +37,14 @@ containing non-finite values or with outputs that do not obey the necessary
 invariants to begin with. It prints a statistical summary of this filtering to
 the standard error stream.
 
+The ``summarize`` subcommand will print out some summary information about
+your training set::
+
+  $ neurosynchro summarize .
+
+Here, the ``.`` indicates the current directory, so that the program will
+discover and analyze the ``transformed.txt`` file that you just created. You
+could also give an argument of ``datadir`` to analyze the pre-transformation
+inputs.
+
 **Next**: :ref:`specify your parameter transformations <specify-parameter-transformations>`.

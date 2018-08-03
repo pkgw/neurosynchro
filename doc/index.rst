@@ -53,6 +53,7 @@ If *neurosynchro* is the tool you need, here are the steps to using it:
    make-training-set.rst
    transform-training-set.rst
    specify-parameter-transformations.rst
+   precalculate-domain-and-range.rst
    train-networks.rst
    use-networks.rst
 

@@ -156,12 +156,41 @@ Map Types
 parameter values and internal “transformed” values:
 
 *abs_log*
+  The transformed value is the logarithm of the absolute value of the
+  physical value. This transform is not reversible on its own. It is used
+  by the driver code for the *rho_Q* parameter, which both spans a large
+  dynamic range and takes on both positive and negative values. The driver
+  deals with this by splitting it into two components: an overall amplitude
+  (using this mapping) and a sign term.
 *direct*
+  The transformed value is the physical value. This is useful for parameters
+  like power-law indices that do not span a large dynamic range.
 *log*
+  The transformed value is the base-10 logarithm of the physical value. This
+  is useful for parameters that span large dynamic ranges and are always positive.
 *logit*
+  The transformed value is the logit of the physical value:
+
+  .. math::
+     t = \log(\frac{p}{1 - p})
+
+  This maps a value in the range ``(0, 1)`` to the range ``(-∞, +∞)``, so to
+  use this the physical value must be constrained to lie in the unit interval.
+  This is the case for the “polarization share” parameters used in the
+  transformed output parameters.  
 *neg_log*
+  The transformed value is the base-10 logarithm of the negation of the
+  physical value. This is useful for parameters that span large dynamic ranges
+  and are always negative.
 *ninth_root*
+  The transformed value is the ninth root of the physical value, preserving
+  sign. This is adequate for parameters that span large-ish dynamic ranges and
+  take on both positive and negative values. This mapping is no longer used in
+  the recommended configuration.
 *sign*
+  The transformed value is the signum of the physical value: either -1, 0, or
+  1 depending on physical value’s sign. This transform is not reversible on
+  its own, but is used for the *rho_Q* parameter as described above.
 
 
 .. _finalizing-config-file:
@@ -185,4 +214,4 @@ You may want to revisit this file to, for example, try a different neural
 network training scheme to improve *neurosynchro*’s performance for a certain
 model output parameter.
 
-**Next**: 
+**Next**: :ref:`precalculate the domain and range of your training set <precalculate-domain-range>`.

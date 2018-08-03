@@ -6,23 +6,28 @@ Make Your Training Set
 
 In order to train a neural network, you need something to train it on!
 
-From the standpoint of *neurosynchro*, what matters is the data format in
-which the training data are stored. Whatever system you use to **generate**
-those data is not of any concern to it. (However, it is true that
-*neurosynchro* has been designed to work with `rimphony
-<https://github.com/pkgw/rimphony/>`_, which has `sample programs
+The training data are a bunch of samples of your detailed calculation. That
+is: given a choice of some input parameters (e.g., a harmonic number), your
+detailed calculation will produce eight output parameters (the Stokes
+radiative transfer coefficients). The exact number of input parameters can
+vary depending on what particle distribution you’re modeling. *Neurosynchro*
+needs a lot of samples of this function to develop a good approximation to it.
+
+From the standpoint of *neurosynchro*, the tool that you use to **generate**
+those data doesn’t matter. What matters is the **format** in which the
+training data are stored. However, it is true that *neurosynchro* has been
+designed to work with `rimphony <https://github.com/pkgw/rimphony/>`_, which
+has `sample programs
 <https://github.com/pkgw/rimphony/blob/master/examples/crank-out-pitchypl.rs>`_
-that will generate training data sets in the format described below.)
+that will generate training data sets in the format described below.
 
 .. attention:: Read this section carefully! *Neurosynchro* bakes in some
                assumptions that might surprise you.
 
-The training data fed to *neurosynchro* should come as a set of plain textual
-tables stored in a single directory. This will be referred to as the “data
-directory” in what follows.
-
-Each table file is line-oriented. The first line is a header, and all
-subsequent lines give samples of the exact calculation. For example::
+The training data fed to *neurosynchro* must be saved as a set of plain
+textual tables stored in a single directory. The file names must end in
+``.txt``. Each table file is line-oriented. The first line is a header, and
+all subsequent lines give samples of the exact calculation. For example::
 
    s(log)	theta(lin)	p(lin)	k(lin)	time_ms(meta)	j_I(res)	alpha_I(res)	j_Q(res)	alpha_Q(res)	j_V(res)	alpha_V(res)	rho_Q(res)	rho_V(res)
    1.95393e2	8.8966e-1	3.49e0	1.41e0	2.21270e3	8.42819e-35	2.26887e-8	-6.439070e-35	-1.80416e-8	1.17279e-35	3.56901e-9	3.2947e-7	3.8318e-5
@@ -37,8 +42,7 @@ suffix indicating its type:
    in the code. But it can be a helpful piece of information to have handy
    when specifying how the neural nets will be trained.
 ``log``
-   An input parameter that is sampled logarithmically in some well-defined
-   range.
+   An input parameter that is sampled logarithmically in some range.
 ``res``
    A output result from the computation.
 ``meta``
@@ -47,6 +51,14 @@ suffix indicating its type:
    how many milliseconds it took for *Rimphony* to calculate the sample.
    This is useful for identifying regions of parameter space where the
    code runs into numerical problems.
+
+So, in the example above, there are four input parameters. The detailed
+calculation shows that when the harmonic number *s* ≃ 195, observing angle
+*theta* ≃ 0.9 radians, energy power-law index *p* ≃ 3.5, and pitch-angle
+distribution index *k* ≃ 1.4, the emission coefficient *j_I* ≃ 8 × 10
+:superscript:`-35` erg s :superscript:`-1` cm :superscript:`-2` Hz
+:superscript:`-1` sr :superscript:`-1`. The *rimphony* calculation of that
+result took about 2.2 seconds.
 
 Something like 100,000 rows is enough to train some good neural networks. It
 doesn't matter how many different files those rows are split into.
@@ -69,7 +81,7 @@ works:
    network regression.
 2. You must compute all of your coefficients **at an energetic particle
    density of 1 per cubic centimeter**! Here too, all the synchrotron
-   coefficients scale simple with the energetic particle density (namely, they
+   coefficients scale simply with the energetic particle density (namely, they
    all scale linearly). Once again this means that the energetic particle
    density doesn´t actually need to be part of the regression.
 

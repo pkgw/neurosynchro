@@ -11,15 +11,15 @@ experiment with training regimens.
 from __future__ import absolute_import, division, print_function
 
 import argparse, sys, time
-from keras.layers import Dense
 from pwkit.cli import die
 from pwkit.io import Path
 
 from . import DomainRange
-from .impl import NSModel
 
 
 def generic_trainer(m):
+    from keras.layers import Dense
+
     m.add(Dense(
         units = 300,
         input_dim = m.domain_range.n_params,
@@ -49,6 +49,8 @@ def generic_trainer(m):
 
 
 def twolayer_trainer(m):
+    from keras.layers import Dense
+
     m.add(Dense(
         units = 120,
         input_dim = m.domain_range.n_params,
@@ -117,6 +119,8 @@ def binary_trainer(m):
 
 
 def load_data_and_train(datadir, nndir, result_name):
+    from .impl import NSModel
+
     cfg_path = Path(nndir) / 'nn_config.toml'
     dr, rinfo = DomainRange.from_serialized(cfg_path, result_to_extract=result_name)
 

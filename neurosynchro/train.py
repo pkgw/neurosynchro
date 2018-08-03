@@ -160,12 +160,12 @@ def make_parser(ap=None):
     ap.add_argument('-p', '--plot', action='store_true',
                     help='Compare the NN and Symphony after training.')
     ap.add_argument('-r', '--residuals', action='store_true',
-                    help='If plotting, plot residuals rather than absolute values.')
-    ap.add_argument('datadir', type=str, metavar='DATADIR',
+                    help='If plotting, plot residuals rather than absolute values (requires `omegaplot` package).')
+    ap.add_argument('datadir', type=str, metavar='<datadir>',
                     help='The path to the sample data directory.')
-    ap.add_argument('nndir', type=str, metavar='NNDIR',
+    ap.add_argument('nndir', type=str, metavar='<nndir>',
                     help='The path to the neural-net directory.')
-    ap.add_argument('result_name', type=str, metavar='RESULT-NAME',
+    ap.add_argument('result_name', type=str, metavar='<result-name>',
                     help='The name of the simulation result to train on.')
     return ap
 

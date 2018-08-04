@@ -28,6 +28,8 @@ configuration file <finalizing-config-file>` ``nndir/nn_config.toml`` as
 described below.
 
 
+.. _transformations:
+
 How *Neurosynchro* transforms parameters
 ----------------------------------------
 

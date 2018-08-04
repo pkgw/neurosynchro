@@ -348,6 +348,12 @@ def entrypoint(argv):
         help = 'Print summary statistics about the training set'
     ))
 
+    from .grtrans import make_parser as make_grtrans_parser
+    make_grtrans_parser(subparsers.add_parser(
+        'test-grtrans',
+        help = 'Do a test integration with grtrans'
+    ))
+
     make_transform_parser(subparsers.add_parser(
         'transform',
         help = 'Transform the training set into Neurosynchro\'s internal parametrization',
@@ -376,6 +382,9 @@ so you almost surely want to redirect the output of this program to a file.'''
         lock_domain_range_cli(settings)
     elif settings.subcommand == 'summarize':
         summarize_cli(settings)
+    elif settings.subcommand == 'test-grtrans':
+        from .grtrans import grtrans_cli
+        grtrans_cli(settings)
     elif settings.subcommand == 'train':
         from .train import train_cli
         train_cli(settings)

@@ -24,6 +24,7 @@ NinthRootMapping
 SampleData
 SignMapping
 basic_load
+detrivialize_stokes_basis
 mapping_from_dict
 mapping_from_samples
 '''.split()
@@ -448,3 +449,73 @@ class SampleData(object):
     @property
     def norm_results(self):
         return self.norm[:,self.domain_range.n_params:]
+
+
+def detrivialize_stokes_basis(coeffs, psi):
+    """Re-express coefficients in a basis in which the magnetic field can rotate
+    on the sky.
+
+    == Arguments ==
+
+    coeffs
+      Radiative transfer coefficients in the Stokes basis where the Stokes U
+      axis is aligned with the magnetic field. This is an array of shape ``(S,
+      8)`` where *S* is the shape of *psi*. Along the inner axis of the array,
+      the coefficients are: ``(j_I, alpha_I, j_Q, alpha_Q, j_V, alpha_V,
+      rho_Q, rho_V)``. This is the representation returned by
+      :meth:`neurosynchro.impl.PhysicalApproximator.compute_all_nontrivial`.
+
+    psi
+      The angle(s) between the magnetic field as projected on the sky and some
+      invariant Stokes U axis, in radians. XXX: sign convention?
+
+    == Returns ==
+
+    An array of radiative transfer coefficients in which the Stokes U terms
+    are no longer trivial. The shape is ``(S, 11)``. Along the inner axis of
+    the array, the coefficients are: ``(j_I, alpha_I, j_Q, alpha_Q, j_U,
+    alpha_U, j_V, alpha_V, rho_Q, rho_U, rho_V)``.
+
+    == Details ==
+
+    Synchrotron calculations are generally performed in a basis in which the
+    Stokes U axis is aligned with the magnetic field, which means that the
+    corresponding radiative transfer coefficients are zero ("trivial"). In
+    actual work, however, the magnetic field orientation is not guaranteed to
+    be constant along the direction of propagation. If the Stokes U axis is
+    held fixed along the integration, the Stokes U coefficients become
+    nontrivial. This function transforms coefficients from the former basis
+    to the latter.
+
+    See Shcherbakov & Huang (2011MNRAS.410.1052S), equations 50-51. Note
+    that the linear polarization axis rotates at twice the rate that psi
+    does, because linear polarization is an *orientation* not an *angle*.
+
+    """
+    ji = coeffs[...,0]
+    ai = coeffs[...,1]
+    jq = coeffs[...,2]
+    aq = coeffs[...,3]
+    jv = coeffs[...,4]
+    av = coeffs[...,5]
+    rq = coeffs[...,6]
+    rv = coeffs[...,7]
+
+    twochi = 2 * (np.pi - psi) # note the sign convention!
+    s = np.sin(twochi)
+    c = np.cos(twochi)
+
+    xformed = np.empty(coeffs.shape[:-1] + (11,))
+    xformed[...,0] = ji # j_I
+    xformed[...,1] = ai # alpha_I
+    xformed[...,2] = c * jq # j_Q
+    xformed[...,3] = c * aq # alpha_Q
+    xformed[...,4] = s * jq # j_U
+    xformed[...,5] = s * aq # alpha_U
+    xformed[...,6] = jv # j_V
+    xformed[...,7] = av # alpha_V
+    xformed[...,8] = c * rq # rho_Q
+    xformed[...,9] = s * rq # rho_U
+    xformed[...,10] = rv # rho_V
+
+    return xformed

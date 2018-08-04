@@ -162,16 +162,65 @@ class PhysicalApproximator(object):
 
     @broadcastize(4, ret_spec=None)
     def compute_all_nontrivial(self, nu, B, n_e, theta, **kwargs):
+        """Compute the nontrivial radiative transfer coefficients.
+
+        == Arguments ==
+
+        nu
+          The observing frequency, in Hz. This and all parameters may be
+          scalars or arrays; they are broadcast to a common shape before
+          performing the computations.
+        B
+          The local magnetic field strength, in G.
+        n_e
+          The local density of synchrotron-emitting particles, in cm^-3.
+        theta
+          The angle between the line of sight and the local magnetic field,
+          in radians.
+        **kwargs
+          Other arguments to the synchrotron model; these can vary depending
+          on which particle distribution was used.
+
+        == Returns ==
+
+        A tuple of ``(coeffs, oos)``:
+
+        coeffs
+          The radiative transfer coefficients in the Stokes basis where the
+          Stokes U axis is aligned with the magnetic field. This is an array
+          of shape ``S + (8,)`` where *S* is the shape of the broadcasted
+          input parameters. Along the inner axis of the array, the coefficients
+          are: ``(j_I, alpha_I, j_Q, alpha_Q, j_V, alpha_V, rho_Q, rho_V)``.
+        oos
+          An array of integers reporting where the calculations encountered
+          out-of-sample values, that is, inputs or outputs beyond the range in
+          which the neural networks were trained. The shape of this array is
+          the same as that of the broadcased input parameters, or a scalar if
+          the inputs were all scalars. For each set of input parameters, the
+          least significant bit is set to 1 if the first input parameter was
+          out-of-sample, where "first" is defined by the order in which these
+          parameters are listed in the ``nn_config.toml`` file. The next more
+          significant bit is set if the second input parameter was out of
+          sample, and so on. After all of the input parameters, there are 9
+          flag bits indicating whether any of the *output* results were
+          out-of-sample, relative to the range of normalized values
+          encountered in the training set. The order in which these parameters
+          are processed is ``j_I``, ``alpha_I``, ``rho_Q``, ``rho_V``,
+          ``j_frac_pol``, ``alpha_frac_pol``, ``j_V_share``,
+          ``alpha_V_share``, ``rho_Q_sign``. Therefore if the synchrotron
+          model takes 4 input parameters and the ``rho_Q_sign`` output is the
+          only one to have been out-of-sample, the resulting ``oos`` value
+          will be ``0x1000``.
+
+        """
         # Turn the standard parameters into the ones used in our computations
 
-        no_B = ~(B > 0)
+        no_B = np.logical_not(B > 0)
         nu_cyc = cgs.e * B / (2 * np.pi * cgs.me * cgs.c)
         nu_cyc[no_B] = 1e7 # fake to avoid div-by-0 for now
         kwargs['s'] = nu / nu_cyc
 
-        # We are paranoid and assume that theta could take on any value ...
-        # even though we do no bounds-checking for whether any of the *other*
-        # inputs overlap the values that we used to train the neural nets.
+        # Normalize theta (assuming it could take on any value
 
         theta = theta % (2 * np.pi)
         w = (theta > np.pi)
@@ -180,7 +229,7 @@ class PhysicalApproximator(object):
         theta[flip] = np.pi - theta[flip]
         kwargs['theta'] = theta
 
-        # Normalize inputs.
+        # Normalize inputs and check for out-of-sample.
 
         oos_flags = 0
 
@@ -280,12 +329,12 @@ class PhysicalApproximator(object):
         # Pack it up and we're done.
 
         result = np.empty(n_e.shape + (8,))
-        result[:,0] = j_I
-        result[:,1] = alpha_I
-        result[:,2] = j_Q
-        result[:,3] = alpha_Q
-        result[:,4] = j_V
-        result[:,5] = alpha_V
-        result[:,6] = rho_Q
-        result[:,7] = rho_V
+        result[...,0] = j_I
+        result[...,1] = alpha_I
+        result[...,2] = j_Q
+        result[...,3] = alpha_Q
+        result[...,4] = j_V
+        result[...,5] = alpha_V
+        result[...,6] = rho_Q
+        result[...,7] = rho_V
         return result, oos_flags

@@ -29,11 +29,13 @@ of linear polarization, conversion of circular and linear).
 You have a code, such as `Rimphony <https://github.com/pkgw/rimphony/>`_ or
 `Symphony <https://github.com/AFD-Illinois/symphony>`_, that can calculate
 these numbers for you as a function of some input physical parameters such as
-an electron temperature or an energy power law index.
+an electron temperature or an energy power law index. You also have a code
+such as `grtrans <https://github.com/jadexter/grtrans>`_ that can perform your
+radiative transfer integration in the Stokes basis.
 
-Your code is very precise but it’s just *too slow* for your needs: you need to
-do lots of calculations for lots of input parameters, and things are taking
-too long.
+The problem is that your synchrotron calculator code is very precise but it’s
+just *too slow* for your needs: you need to do lots of integrations for
+arbitrary input parameters, and things are taking too long.
 
 Enter *neurosynchro*. This package provides a toolkit for training neural
 networks to quickly approximate the coefficients you need. Once you’ve trained

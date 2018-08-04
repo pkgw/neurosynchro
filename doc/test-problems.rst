@@ -105,3 +105,5 @@ errors — not necessarily to test the ``grtrans`` integrator in challenging
 circumstances. When generating your test data sets, there’s no particular need
 to explore unusual corners of parameter space unless you expect them to arise
 in your science application.
+
+**Next**: :ref:`use your networks in your application! <use-in-application>`

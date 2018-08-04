@@ -2,10 +2,15 @@
 # Copyright 2018 Peter Williams and collaborators.
 # Licensed under the MIT License.
 
-"""Framework for running end-to-end tests with ``grtrans``.
+"""This module provides helpers for doing radiative transfer integrations with
+`grtrans <https://github.com/jadexter/grtrans>`_, including a simple
+framework for running end-to-end tests.
 
-The module ``radtrans_integrate`` must be importable. Sadly ``grtrans`` doesn't
-install itself like a regular Python package, so getting this working can be a pain.
+In order to use this functionality, the Python module ``radtrans_integrate``
+must be importable. Sadly `grtrans <https://github.com/jadexter/grtrans>`_
+doesn't install itself like a regular Python package, so getting this working
+can be a pain. Documenting the installation procedure is beyond the scope of
+this project.
 
 """
 from __future__ import absolute_import, division, print_function
@@ -22,18 +27,21 @@ METHOD_LSODA_NO_LINEAR_STOKES = 3 # LSODA with IS_LINEAR_STOKES=0 -- this is "un
 
 
 def integrate_ray_formal(x, j, K):
-    """Arguments:
+    """Use `grtrans <https://github.com/jadexter/grtrans>`_ to integrate one ray
+    using its "formal" (matricant / O-matrix) method.
 
-    x
+    **Call signature**
+
+    *x*
       1D array, shape (n,). Path length along ray, starting from zero, in cm.
-    j
-      Array, shape (n, 4). Emission coefficients: j_{IQUV}, in that order.
-    K
+    *j*
+      Array, shape (n, 4). Emission coefficients: ``j_{IQUV}``, in that order.
+    *K*
       Array, shape (n, 7). Absorption coefficients and Faraday mixing coefficients:
-      alpha_{IQUV}, rho_{QUV}.
-    Returns:
-      Array of shape (4, m): Stokes intensities along parts of the ray with
-      non-zero total emissivities; m <= n.
+      ``alpha_{IQUV}, rho_{QUV}``.
+    Return value
+      Array of shape (4, m): Stokes intensities ``IQUV`` along parts of the
+      ray with non-zero total emissivities; m <= n.
 
     """
     # A correct version of the fully-specified absorption matrix is in Leung+
@@ -91,32 +99,33 @@ def integrate_ray_formal(x, j, K):
 
 def integrate_ray_lsoda(x, j, K, atol=1e-8, rtol=1e-6, max_step_size=None,
                         frac_max_step_size=1e-3, max_steps=100000):
-    """Integrate along a ray using grtrans' LSODA method.
+    """Use `grtrans <https://github.com/jadexter/grtrans>`_ to integrate one ray
+    using its LSODA method.
 
-    Arguments:
+    **Call signature**
 
-    x
+    *x*
       1D array, shape (n,). Path length along ray, starting from zero, in cm.
-    j
-      Array, shape (n, 4). Emission coefficients: j_{IQUV}, in that order.
-    K
+    *j*
+      Array, shape (n, 4). Emission coefficients: ``j_{IQUV}``, in that order.
+    *K*
       Array, shape (n, 7). Absorption coefficients and Faraday mixing coefficients:
-      alpha_{IQUV}, rho_{QUV}.
-    atol
+      ``alpha_{IQUV}, rho_{QUV}``.
+    *atol*
       Some kind of tolerance parameter.
-    rtol
+    *rtol*
       Some kind of tolerance parameter.
-    max_step_size
-      The maximum absolute step size. Overrides `frac_max_step_size`.
-    frac_max_step_size
-      If `max_step_size`, is not specified the maximum step size passed to the
-      integrator is `x.max()` multiplied by this parameter. Experience shows
+    *max_step_size*
+      The maximum absolute step size. Overrides *frac_max_step_size*.
+    *frac_max_step_size*
+      If *max_step_size* is not specified, the maximum step size passed to the
+      integrator is ``x.max()`` multiplied by this parameter. Experience shows
       that (for LSODA at least) this parameter must be pretty small to get
       good convergence!
-    max_steps
+    *max_steps*
       The maximum number of steps to take.
-    Returns:
-      Array of shape (4, m): Stokes intensities along parts of the ray with
+    Return value
+      Array of shape (4, m): Stokes intensities IQUV along parts of the ray with
       non-zero total emissivities; m <= n.
 
     """
@@ -172,20 +181,26 @@ def integrate_ray_lsoda(x, j, K, atol=1e-8, rtol=1e-6, max_step_size=None,
 
 
 def integrate(d, coeffs, psi):
-    """Do a basic integration
+    """Integrate a ray with `grtrans <https://github.com/jadexter/grtrans>`_,
+    using reasonable defaults.
 
-    d
-      Path length along the ray, starting from zero, in cm.
-    coeffs
-      Array of shape (N, 8) of RT coefficients in U=0 basis.
-    psi
-      Array of angles between magnetic field and sky
-    Returns:
-      Array of shape (4,): final IQUV.
+    **Call signature**
 
-    Recall that we're not trying to test the RT integration here, just what
-    happens if the coefficients are slightly different due to the neural
-    network approximation. So we don't provide many knobs or diagnostics here.
+    *d*
+      An array giving the location of each sample along the ray, starting from zero, in cm.
+    *coeffs*
+      An array of shape (N, 8) of RT coefficients in the basis where the
+      Stokes U coefficients are always zero. Such arrays are returned by
+      :meth:`neurosynchro.impl.PhysicalApproximator.compute_all_nontrivial`.
+    *psi*
+      An array of angles between the local magnetic field and the observer’s Stokes U
+      axis, in radians.
+    Return value
+      An array of shape (4,), giving the Stokes IQUV at the end of the ray.
+
+    This function is mainly intended to test what happens if the passed-in
+    coefficients are slightly different due to the neural network
+    approximation. So we don't provide many knobs or diagnostics here.
 
     """
     from . import detrivialize_stokes_basis

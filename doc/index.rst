@@ -75,6 +75,7 @@ functionality is best accessed through the command-line interface
 
    api/index.rst
    api/impl.rst
+   api/grtrans.rst
 
 
 Indices and tables

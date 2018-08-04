@@ -139,8 +139,19 @@ class NSModel(models.Sequential):
 
 
 class PhysicalApproximator(object):
-    """Approximate the eight nontrivial RT coefficients using a more
+    """This class approximates the eight nontrivial RT coefficients using a
     physically-based parameterization.
+
+    See :ref:`how-to-use` for detailed documentation of how to prepare and
+    train the neural networks used by this class.
+
+    **Constructor argument**
+
+    **nn_dir**
+      The path to a directory containing trained neural network data. This
+      directory should contain the configuration file ``nn_config.toml`` and
+      serialized neural network weights in files with names like
+      ``rho_Q_sign.h5``.
 
     """
     results = 'j_I alpha_I rho_Q rho_V j_frac_pol alpha_frac_pol j_V_share alpha_V_share rho_Q_sign'.split()
@@ -164,34 +175,34 @@ class PhysicalApproximator(object):
     def compute_all_nontrivial(self, nu, B, n_e, theta, **kwargs):
         """Compute the nontrivial radiative transfer coefficients.
 
-        == Arguments ==
+        **Arguments**
 
-        nu
+        *nu*
           The observing frequency, in Hz. This and all parameters may be
           scalars or arrays; they are broadcast to a common shape before
           performing the computations.
-        B
+        *B*
           The local magnetic field strength, in G.
-        n_e
+        *n_e*
           The local density of synchrotron-emitting particles, in cm^-3.
-        theta
+        *theta*
           The angle between the line of sight and the local magnetic field,
           in radians.
-        **kwargs
+        ``**kwargs``
           Other arguments to the synchrotron model; these can vary depending
           on which particle distribution was used.
 
-        == Returns ==
+        **Return values**
 
         A tuple of ``(coeffs, oos)``:
 
-        coeffs
+        *coeffs*
           The radiative transfer coefficients in the Stokes basis where the
           Stokes U axis is aligned with the magnetic field. This is an array
           of shape ``S + (8,)`` where *S* is the shape of the broadcasted
           input parameters. Along the inner axis of the array, the coefficients
           are: ``(j_I, alpha_I, j_Q, alpha_Q, j_V, alpha_V, rho_Q, rho_V)``.
-        oos
+        *oos*
           An array of integers reporting where the calculations encountered
           out-of-sample values, that is, inputs or outputs beyond the range in
           which the neural networks were trained. The shape of this array is

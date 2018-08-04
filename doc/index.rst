@@ -44,6 +44,8 @@ coefficients really quickly — something like 10,000 times faster than the
 detailed calculations.
 
 
+.. _how-to-use:
+
 How to Use It
 =============
 
@@ -64,11 +66,15 @@ If *neurosynchro* is the tool you need, here are the steps to using it:
 Python API Reference
 ====================
 
+Internal interfaces are mostly not documented. Much of *neurosynchro*’s
+functionality is best accessed through the command-line interface
+``neurosynchro``, rather than attempting to use these interfaces.
 
 .. toctree::
    :maxdepth: 2
 
    api/index.rst
+   api/impl.rst
 
 
 Indices and tables

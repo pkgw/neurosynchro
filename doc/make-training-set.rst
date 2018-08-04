@@ -68,6 +68,10 @@ doesn't matter how many different files those rows are split into.
          cluster where you can launch 1,000 jobs to compute coefficients for
          you in parallel.
 
+.. tip:: Each individual input file can be easily loaded into a `Pandas
+         <https://pandas.pydata.org/>`_ data frame with the function call
+         ``pandas.read_table()``.
+
 
 Important assumptions
 ---------------------

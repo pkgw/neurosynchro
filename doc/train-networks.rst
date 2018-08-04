@@ -94,3 +94,5 @@ This menu of options is, obviously, quite limited. For novel applications, you
 may have to edit the code to add new training schemes. `Pull requests
 <https://github.com/pkgw/neurosynchro/pulls>`_ contributing new ones are more
 than welcome!
+
+**Next**: :ref:`run some test problems! <run-test-problems>`

@@ -28,6 +28,8 @@ Neurosynchro is written by Peter K. G. Williams (<pwilliams@cfa.harvard.edu>).
 
 ## Requirements
 
+<!-- Keep synchronized with setup.py and doc/requirements.txt -->
+
 - [keras](https://keras.io/) version 2.1 or greater.
 - [numpy](https://www.numpy.org/) version 1.10 or greater.
 - [pandas](https://pandas.pydata.org/) version 0.23.0 or greater.

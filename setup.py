@@ -41,7 +41,7 @@ This code is specific to synchrotron radiation because it makes certain
 assumptions about how the coefficients scale with input parameters such as the
 observing frequency.''',
 
-    # Synchronize with README.md:
+    # Synchronize with README.md and doc/requirements.txt:
     install_requires = [
         'keras >=2.1',
         'numpy >=1.10',

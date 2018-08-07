@@ -44,6 +44,15 @@ coefficients really quickly — something like 10,000 times faster than the
 detailed calculations.
 
 
+Installation
+============
+
+.. toctree::
+   :maxdepth: 1
+
+   installation.rst
+
+
 .. _how-to-use:
 
 How to Use It

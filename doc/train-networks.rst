@@ -94,8 +94,11 @@ each output parameter, you can specify which scheme to use by editing its
     <https://keras.io/losses/#binary_crossentropy>`_ loss function.
 
   The training is run in almost the same way as in the ``generic`` setup, but
-  no sigma-clipping is performed. This setup is optimize for the *rho_Q_sign*
+  no sigma-clipping is performed. This setup is intended for the *rho_Q_sign*
   output parameter, which predicts the sign of the *rho_Q* coefficient.
+  However, sometimes the ``generic`` scheme actually performs better in
+  practice. Once again, investigate by trying both and seeing which gives a
+  better MSE.
 
 This menu of options is, obviously, quite limited. For novel applications, you
 may have to edit the code to add new training schemes. `Pull requests

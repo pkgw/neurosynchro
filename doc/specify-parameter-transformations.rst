@@ -220,14 +220,12 @@ Finalizing Configuration for the Tutorial
 For the purposes of the tutorial, here are the specific adjustments you should
 make to the default configuration file:
 
-1. Add a stanza defining the power-law index parameter::
+1. Add a stanza defining the power-law index parameter, after the stanza for
+   the ``theta`` parameter::
 
      [[params]]
      name = "p"
      maptype = "direct"
-
-2. Edit the stanza for the result ``rho_Q_sign`` to specify that it should use
-   the ``binary`` trainer rather than the ``generic`` one.
 
 .. rho-q: twolayer??
 

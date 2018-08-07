@@ -85,6 +85,8 @@ def twolayer_trainer(m):
 
 
 def binary_trainer(m):
+    from keras.layers import Dense
+
     m.add(Dense(
         units = 120,
         input_dim = m.domain_range.n_params,

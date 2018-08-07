@@ -112,6 +112,20 @@ such, many internal parts of the code are not documented.
    api/grtrans.rst
 
 
+Contributing to the Project
+===========================
+
+Contributions are welcome! See the `CONTRIBUTING.md
+<https://github.com/pkgw/neurosynchro/blob/master/CONTRIBUTING.md>`_ file
+attached to `the project’s GitHub repository
+<https://github.com/pkgw/neurosynchro>`_. The goal is to run the project with
+standard open-source best practices. We do wish to call your attention to the
+`code of conduct
+<https://github.com/pkgw/neurosynchro/blob/master/CODE_OF_CONDUCT.md>`_,
+however. Participation in the project is contingent on abiding by the code in
+both letter and spirit.
+
+
 Indices and tables
 ==================
 

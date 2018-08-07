@@ -120,7 +120,6 @@ NNINIT_DEFAULT_CONFIG = {
             name = 'rho_Q_sign',
             maptype = 'direct',
             normalization_mode = 'unit_interval',
-            trainer = 'binary',
             x_mean = -1,
             x_std = 2,
             phys_min = -1,

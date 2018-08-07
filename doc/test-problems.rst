@@ -17,6 +17,13 @@ However *neurosynchro* does include a tool that will use `grtrans
 integrations with both precisely-calculated and approximated coefficients, so
 that you can check its performance in an end-to-end example.
 
+.. warning:: Unfortunately, in its current state, ``grtrans`` is really
+             difficult to install in a useful way … and due to this situation,
+             we don’t distribute any canned test problems. We can’t recommend
+             this testing strategy for any but the hardest-core users. You
+             might want to skip ahead to learn about how to :ref:`use your
+             networks in your application <use-in-application>`.
+
 To run these tests, the ``grtrans`` Python module ``radtrans_integrate`` must
 be importable in your Python setup. Unfortunately, ``grtrans`` does not
 provide a standard installation path, so it can be a bit of a hassle to make
@@ -31,10 +38,10 @@ scope of this manual.
 Once ``grtrans`` has been installed, you need to create a test data set, as
 described below. Then a command like this will run the comparison::
 
-  $ neurosynchro test-grtrans nndir testproblem.txt
+  $ neurosynchro test-grtrans . testproblem.txt
 
-Here is example output for a neural network trained from about 2.4 million
-samples of an isotropic, power-law electron distribution::
+Here is example output for a test problem prepared for the tutorial neural
+networks, trained on a power-law electron distribution::
 
   Using Theano backend.
   Precise computation: I=2.1134e-08  Q=-2.6238e-10  U=-1.6681e-09  V=4.4779e-09  calc_time=103937 ms

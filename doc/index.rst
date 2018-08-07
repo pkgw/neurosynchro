@@ -12,6 +12,14 @@ deep learning library and is licensed under the `MIT License
 
 This documentation refers to version |version| of *neurosynchro*.
 
+- :ref:`Take me to the tutorial where I get to train some neural networks!
+  <download-training-set>` (The training can take a few hours if you’re on a
+  laptop, though.)
+
+- :ref:`Take me to the tutorial where I just calculate some coefficients!
+  <download-trained-networks>` (This tutorial is much quicker … maybe too
+  quick.)
+
 
 Who It’s For
 ============
@@ -56,14 +64,14 @@ Installation
 
 .. _how-to-use:
 
-How to Use It
-=============
+Tutorial, AKA, How to Use It
+============================
 
 There are three main ways that you might use *neurosynchro*:
 
 1. You might have the data files for a useful, trained neural network on hand.
    In this case, all you need to do is :ref:`load it up and use it
-   <use-in-application>`. We have provided sample trained neural networks for
+   <download-trained-networks>`. We have provided sample trained neural networks for
    download — the above page walks you through downloading them. So, this is
    the quickest way to get started.
 
@@ -91,6 +99,7 @@ Or, to break down the various steps in roughly sequential order:
    specify-parameter-transformations.rst
    precalculate-domain-and-range.rst
    train-networks.rst
+   download-trained-networks.rst
    test-problems.rst
    use-networks.rst
 

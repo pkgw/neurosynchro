@@ -49,12 +49,34 @@ detailed calculations.
 How to Use It
 =============
 
-If *neurosynchro* is the tool you need, here are the steps to using it:
+There are three main ways that you might use *neurosynchro*:
+
+1. You might have the data files for a useful, trained neural network on hand.
+   In this case, all you need to do is :ref:`load it up and use it
+   <use-in-application>`. We have provided sample trained neural networks for
+   download — the above page walks you through downloading them. So, this is
+   the quickest way to get started.
+
+2. You might have a training set on hand, but not have created your neural
+   networks. In this case, you need to go through the process of
+   :ref:`training a new set of neural networks <download-training-set>`.
+   Once again, an example training set is available for download. The training
+   takes a few dozen core-hours of CPU time, so it can take a little while.
+
+3. Finally, if you are investigating a new or unusual region of parameter
+   space, you might not even have an existing training set to work with. In
+   this case you will need to start at the very beginning by :ref:`making your
+   own training set <make-training-set>`. How you do so is beyond the purview
+   of *neurosynchro*, but in the above pages we document the format that the
+   training data must obey.
+
+Or, to break down the various steps in roughly sequential order:
 
 .. toctree::
    :maxdepth: 2
 
    make-training-set.rst
+   download-training-set.rst
    transform-training-set.rst
    specify-parameter-transformations.rst
    precalculate-domain-and-range.rst
@@ -66,9 +88,12 @@ If *neurosynchro* is the tool you need, here are the steps to using it:
 Python API Reference
 ====================
 
-Internal interfaces are mostly not documented. Much of *neurosynchro*’s
-functionality is best accessed through the command-line interface
-``neurosynchro``, rather than attempting to use these interfaces.
+In most cases, the only part of the Python API that you will care about is the
+:class:`neurosynchro.impl.PhysicalApproximator` class — this is the class that
+loads up a neural network and computes coefficients for you. The rest of
+*neurosynchro*’s functionality is best accessed through the command-line
+interface ``neurosynchro``, rather than directly using the Python code. As
+such, many internal parts of the code are not documented.
 
 .. toctree::
    :maxdepth: 2

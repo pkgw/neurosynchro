@@ -22,15 +22,17 @@ to obey such invariants.
 Once you have generated training set data, then, you must transform them into
 this internal representation. This is done with the ``transform`` subcommand
 of the ``neurosynchro`` command that gets installed along with the
-*neurosynchro* Python package. Usage is straightforward::
+*neurosynchro* Python package. It’s very straightforward to use. Assuming that
+you are using the standard directory structure, just run::
 
-  $ neurosynchro transform datadir >transformed.txt
+  $ mkdir -p transformed
+  $ neurosynchro transform rawsamples >transformed/all.txt
 
-Here, ``datadir`` is the name of the directory containing the training data.
-The ``transform`` subcommand prints the transformed database to standard
+Here, ``rawsamples`` is the name of the directory containing the training
+data. The ``transform`` subcommand prints the transformed database to standard
 output, so in the example above, shell redirection is used to save the results
-to the file ``transformed.txt``. With a large sample of training data, the
-resulting text file might be several tens of megabytes.
+to the file ``all.txt`` in a new subdirectory. With the example training set
+data, the resulting text file will be hundreds of megabytes in size.
 
 The ``transform`` subcommand will also filter your data, discarding any rows
 containing non-finite values or with outputs that do not obey the necessary
@@ -40,11 +42,9 @@ the standard error stream.
 The ``summarize`` subcommand will print out some summary information about
 your training set::
 
-  $ neurosynchro summarize .
+  $ neurosynchro summarize transformed
 
-Here, the ``.`` indicates the current directory, so that the program will
-discover and analyze the ``transformed.txt`` file that you just created. You
-could also give an argument of ``datadir`` to analyze the pre-transformation
-inputs.
+Here you could also give an argument of ``rawsamples`` to analyze the
+pre-transformed inputs.
 
 **Next**: :ref:`specify your parameter transformations <specify-parameter-transformations>`.

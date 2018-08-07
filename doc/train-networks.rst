@@ -7,26 +7,33 @@ Train Your Networks
 ===================
 
 We’re finally ready to train your networks! After all of our preparatory work,
-the training is pretty straightforward. For each output parameter, run a
+the training is pretty straightforward. For each output parameter, one runs a
 command like::
 
-  $ neurosynchro train xformdir nndir j_I
+  $ neurosynchro train transformed . j_I
 
-Here, ``xformdir`` is the path to the directory with the transformed training
-set, ``nndir`` is the path to the result directory, and ``j_I`` is the name of
-the component to train for. After training is complete, a file named
-``j_I.h5`` will be saved in the result directory. The program will print out
-the mean squared error (MSE) characterizing the neural network’s performance
-against the training set.
+Here, ``transformed`` is the path to the directory with the transformed
+training set, ``.`` is the result directory containing the ``nn_config.toml``
+file (the current directory, in the standard tutorial layout), and ``j_I`` is
+the name of the component to train for. After training is complete, a file
+named ``j_I.h5`` will be saved in the result directory. The program will print
+out the mean squared error (MSE) characterizing the neural network’s
+performance against the training set.
 
-In the author’s workflow, training typically takes about 20 minutes for each
-parameter. No substantial effort has gone into optimizing the training
-process.
+When training against the training set used in the tutorial, it takes about 20
+minutes to train on each parameter when using an 8-core laptop CPU. Because
+there are 9 parameters to train, this means that the training might take
+something like 3 hours in total. (No substantial effort has gone into
+optimizing the training process!) If you’re ready to commit to that, you can
+train all of the parameters in sequence with::
+
+  $ all="j_I alpha_I rho_Q rho_V j_frac_pol alpha_frac_pol j_V_share alpha_V_share rho_Q_sign"
+  $ for p in $all ; do neurosynchro train transformed . $p ; done
 
 If you pass the argument ``-p`` to the ``train`` subcommand, diagnostic plots
 will be shown after training is complete. The plots will be made with the
 obscure `omegaplot <https://github.com/pkgw/omegaplot>`_ package, so make sure
-to install it before using this option.
+to install it before trying this option.
 
 
 .. _trainer-types:

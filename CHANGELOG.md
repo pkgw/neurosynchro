@@ -1,3 +1,5 @@
+# Upcoming not-yet-released version (YYY Mon DD)
+
 # Version 0.1.4 (2018 Aug 7)
 
 - More documentation updates. We now provide a sample training set and sample

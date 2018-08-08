@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 from setuptools import setup, Extension
 
 # Keep synchronized with doc/conf.py:
-version = '0.1.4a0'
+version = '0.1.4'
 
 setup(
     name = 'neurosynchro',

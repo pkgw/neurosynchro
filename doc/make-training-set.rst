@@ -58,7 +58,7 @@ So, in the example above, there are four input parameters. The detailed
 calculation shows that when the harmonic number *s* ≃ 195, observing angle
 *theta* ≃ 0.9 radians, energy power-law index *p* ≃ 3.5, and pitch-angle
 distribution index *k* ≃ 1.4, the emission coefficient *j_I* ≃ 8 × 10
-:superscript:`-35` erg s :superscript:`-1` cm :superscript:`-2` Hz
+:superscript:`-35` erg s :superscript:`-1` cm :superscript:`-3` Hz
 :superscript:`-1` sr :superscript:`-1`. The *rimphony* calculation of that
 result took about 2.2 seconds.
 
@@ -135,7 +135,7 @@ output results:
 
 *j_I*
    The calculated Stokes I emission coefficient, in erg s :superscript:`-1`
-   cm :superscript:`-2` Hz :superscript:`-1` sr :superscript:`-1`.
+   cm :superscript:`-3` Hz :superscript:`-1` sr :superscript:`-1`.
 *j_Q*
    The Stokes Q emission coefficient, in the same units.
 *j_V*

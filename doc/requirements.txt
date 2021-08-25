@@ -9,4 +9,4 @@ six >= 1.10
 # But we also need more stuff for Keras to import on the RTD environment. We
 # specify an old version of tensorflow because newer ones cause a SIGILL on
 # import: https://github.com/rtfd/readthedocs.org/issues/3738 .
-tensorflow == 1.15.4
+tensorflow == 2.5.1
